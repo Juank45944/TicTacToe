@@ -14,13 +14,14 @@ const Server = http.createServer(app)
 
 const io = socketio(Server)
 
+var currentUsers = []
+var currentRoom = ''
+
 io.on('connection', (socket) => {
-    let currentUsers = []
-    let currentRoom = ''
     console.log(`New user connected to the game, id: ${socket.id}`)
 
     socket.on('newUser', (user) => {
-        currentUser.push(user)
+        currentUsers.push(user)
         if (currentUsers.length === 1) {
             currentRoom = currentUsers[0].name + currentUsers[1].name
             let random = Math.floor(Math.random() * currentUsers.length + 1)
