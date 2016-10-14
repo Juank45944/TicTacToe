@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <link rel="stylesheet" href="css/estilos.css" media="screen" title="no title">
+
     <title>Tic Tac Toe</title>
   </head>
   <body>
@@ -53,49 +56,43 @@
       </div>
       <div class="chat-container">
         <h4>Chat</h4>
-        <div class="msg-container">
-          <div class="msg-cont-env">
-            <div class="msg-enviado">
-              <span class="titulo-msg">Tu:</span>
-              <span class="msg">Hola</span>
+        <div class="scroll-container">
+          <div class="msg-container">
+            <div class="msg-cont-env">
+              <div class="msg-enviado">
+                <span class="titulo-msg">Tu:</span>
+                <span class="msg">Hola</span>
+              </div>
             </div>
-          </div>
-          <div class="msg-cont-rec">
-            <div class="msg-recibido">
-              <span class="titulo-msg">Oponente:</span>
-              <span class="msg">Que tal como estas?</span>
-            </div>
-          </div>
-          <div class="msg-cont-rec">
-            <div class="msg-recibido">
-              <span class="titulo-msg">Oponente:</span>
-              <span class="msg">Que tal como estas?</span>
-            </div>
-          </div>
-          <div class="msg-cont-env">
-            <div class="msg-enviado">
-              <span class="titulo-msg">Tu:</span>
-              <span class="msg">Hola</span>
-            </div>
-          </div>
-          <div class="msg-cont-env">
-            <div class="msg-enviado">
-              <span class="titulo-msg">Tu:</span>
-              <span class="msg">Hola</span>
-            </div>
-          </div>
-          <div class="msg-cont-env">
-            <div class="msg-enviado">
-              <span class="titulo-msg">Tu:</span>
-              <span class="msg">Hola</span>
+            <div class="msg-cont-rec">
+              <div class="msg-recibido">
+                <span class="titulo-msg">Oponente:</span>
+                <span class="msg">Que tal como estas?</span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="input.container">
-
+        <div class="input-container">
+          <textarea name="input-msg"></textarea>
+          <button type="button" name="send"><i class="material-icons">send</i></button>
         </div>
       </div>
     </div>
+
+    <div id="modal">
+      <div class="titulo-modal">
+        <h3>Bienvenido</h3>
+        <p>
+          Ingresa tu nombre de usuario
+        </p>
+      </div>
+      <div class="new-user-form">
+        <input type="text" name="username">
+        <button type="button" name="new-usr-btn" id="newUser"><i class="material-icons">done</i></button>
+      </div>
+    </div>
+
+
     <script src="app.js" charset="utf-8"></script>
   </body>
 </html>
