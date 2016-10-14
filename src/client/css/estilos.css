@@ -272,7 +272,7 @@ body{
   height: 300px;
   top: 10rem;
   left: 20rem;
-  background-color: #9b59cf;
+  background-color: #9cc3e0;
   box-shadow: 10px 10px 5px #888888;
   display: flex;
   flex-flow: row wrap;
@@ -303,10 +303,10 @@ body{
 #modal .new-user-form button{
   width: 15%;
   height: 2.5rem;
-  background: #9cc3e0;
+  background: #9b59cf;
   border: 0;
   border-radius: 5px;
   margin-top: 0.5rem;
-  color: #9b59cf;
+  color: #fff;
   cursor: pointer;
 }
