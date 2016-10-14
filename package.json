@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && NODE_PATH=./ node dist/src/server",
-    "public": "mkdir -p public && cp -r src/client/* public/",
-    "build": "npm run compile-server && npm run public",
+    "public": "mkdir -p public && cp -r src/client/css public/ && cp src/client/index.html public/",
+    "build-js": "NODE_PATH=. browserify -t [babelify --presets [es2015]] src/client/js/index.js > public/app.js",
+    "build": "npm run compile-server && npm run public && npm run build-js",
     "compile-server": "babel src/server/index.js src/server/**/*.js --out-dir dist --presets es2015",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,9 +27,12 @@
   "dependencies": {
     "express": "^4.14.0",
     "socket.io": "^1.5.0",
-    "socket.io-client": "^1.5.0"
+    "socket.io-client": "^1.5.0",
+    "babel-preset-es2015": "^6.16.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.16.0"
+
   }
 }
