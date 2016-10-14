@@ -308,4 +308,5 @@ body{
   border-radius: 5px;
   margin-top: 0.5rem;
   color: #9b59cf;
+  cursor: pointer;
 }
