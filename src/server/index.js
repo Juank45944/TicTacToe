@@ -14,8 +14,8 @@ const Server = http.createServer(app)
 
 const io = socketio(Server)
 
-let currentUsers = []
-let currentRoom = ''
+var currentUsers = []
+var currentRoom = ''
 
 io.on('connection', (socket) => {
     console.log(`New user connected to the game, id: ${socket.id}`)
