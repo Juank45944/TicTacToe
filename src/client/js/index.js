@@ -1,6 +1,15 @@
 
+import io from 'socket.io-client'
 
-var x = "Holaaaa"
+var clientSocket = io()
 
-console.log(x)
-alert(x)
+// Emitir eventos:
+/*
+clientSocket.emit(nombreEvento, { params })
+
+// Escuchar 
+
+clientSocket.on(evento, (datos) => {
+
+})
+*/
