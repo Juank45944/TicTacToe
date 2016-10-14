@@ -20,7 +20,6 @@ var firstSocket = ''
 
 io.on('connection', (socket) => {
     console.log(`New user connected to the game, id: ${socket.id}`)
-    console.log(io.broadcast)
     socket.on('newUser', (user) => {
         switch (currentUsers.length) {
             case 0:
@@ -36,6 +35,7 @@ io.on('connection', (socket) => {
                 firstSocket.join(currentRoom)
                 io.to(currentRoom).emit('newGame', { users: currentUsers, turn: random })
                 currentUsers = []
+                currentRoom = ''
                 break;
             default:
                 break;
@@ -44,6 +44,10 @@ io.on('connection', (socket) => {
 
     socket.on('movement', (data) => {
         socket.broadcast.to(currentRoom).emit('movement', data)
+    })
+
+    socket.on('message', (message) => {
+        socket.broadcast.to(currentRoom).emit('message', message)
     })
 })
 
