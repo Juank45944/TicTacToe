@@ -1,6 +1,3 @@
+import io from 'socket.io-client'
 
-
-var x = "Holaaaa"
-
-console.log(x)
-alert(x)
+var socket = io()
