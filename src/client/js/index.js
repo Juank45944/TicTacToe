@@ -33,18 +33,20 @@ class TicTacToe {
     this.clientSocket = io();
     this.marker = [];
     this.addUser();
+    this.gameStarted();
   }
 
   addUser(){
-    $('#newUser').click(function(){
+    $('#newUser').click(() => {
       this.myUser = $("[name='username']").val();
       $('#modal').hide();
-      clientSocket.emit('newUser', {user: this.myUser});
+      this.clientSocket.emit('newUser', {user: this.myUser});
     })
   }
 
   gameStarted(){
     this.clientSocket.on('newGame', (datos) => {
+      console.log(datos);
       this.players = datos.users;
       if (this.players[datos.turn]===this.myUser) {
         this.marker[0] = 'X';
@@ -67,10 +69,11 @@ class TicTacToe {
     $(".turno-oponente").addClass('active');
     $('.mi-turno').removeClass('active');
     $('.cuadro').off('click');
+    this.listenGameClick();
   }
 
   addGameClick(){
-    $('.cuadro').on('click', function(event){
+    $('.cuadro').on('click', (event) => {
       let element = $(event.target).attr('data-number');
       $(event.target).text(this.marker[0]);
       this.clientSocket.emit('movement', {target: element, user: this.myUser});
@@ -79,9 +82,11 @@ class TicTacToe {
   }
   listenGameClick(){
     this.clientSocket.on('movement', (datos) => {
-      $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]);
+      $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]).css('color','#333');
       this.miTurno();
     })
   }
 
 }
+
+var init = new TicTacToe();
