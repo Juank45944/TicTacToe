@@ -35,7 +35,6 @@ io.on('connection', (socket) => {
                 firstSocket.join(currentRoom)
                 io.to(currentRoom).emit('newGame', { users: currentUsers, turn: random })
                 currentUsers = []
-                currentRoom = ''
                 break;
             default:
                 break;
