@@ -65,6 +65,11 @@ body{
   border: 4px solid #333333;
   height: 33.33%;
   width: 33.33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10rem;
+  color: #9b59cf;
 }
 .cuadro:nth-of-type(1), .cuadro:nth-of-type(2), .cuadro:nth-of-type(3){
   border-top: 0;
@@ -78,7 +83,6 @@ body{
 .cuadro:nth-of-type(7), .cuadro:nth-of-type(8), .cuadro:nth-of-type(9){
   border-bottom: 0;
 }
-
 .turno{
   width: 30%;
   height: 100%;
