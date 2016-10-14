@@ -86,7 +86,7 @@ class TicTacToe {
   }
   listenGameClick(){
     this.clientSocket.on('movement', (datos) => {
-      $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]).css('color','#333');
+      $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]).css('color','#333333');
       this.miTurno();
     })
   }
@@ -114,8 +114,8 @@ class TicTacToe {
   writeChat(){
     let mensaje = $('[name="input-msg"]').val();
     $('.msg-container').append(`
-      <div class="msg-cont-rec">
-      <div class="msg-recibido">
+      <div class="msg-cont-env">
+      <div class="msg-enviado">
       <span class="titulo-msg">${this.myUser}</span>
       <span class="msg">${mensaje}</span>
       </div>
