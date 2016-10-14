@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
             case 1:
                 currentUsers.push(user.user)
                 currentRoom = currentRoom + user.user
-                let random = Math.floor(Math.random() * currentUsers.length)
+                let random = Math.floor(Math.random() * currentUsers.length + 1)
                 socket.join(currentRoom)
                 firstSocket.join(currentRoom)
                 io.to(currentRoom).emit('newGame', { users: currentUsers, turn: random })
