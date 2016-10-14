@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee+Inline|Rubik');
+/* font-family: 'Bungee Inline', cursive;
+   font-family: 'Rubik', sans-serif; */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html{
+  font-family: 'Rubik', sans-serif;
+}
+body{
+  display: flex;
+  flex-flow: row nowrap;
+}
+.main-left{
+  width: 75%;
+  height: 50rem;
+  border-right: 2px solid #ff7300;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titulo-container{
+  height: 10%;
+  width: 100%;
+  background-color: #f0ec8b;
+  border-bottom: 2px solid #ff7300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.titulo-container h1{
+  font-family: 'Bungee Inline', cursive;
+  font-size: 5rem;
+  color: #ff7300;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+.board-container{
+  height: 60%;
+  width: 60%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.turnos-container{
+  height: 10%;
+  width: 90%;
+}
+
+.cuadro{
+  border: 4px solid #ff7300;
+  height: 33.33%;
+  width: 33.33%;
+}
+.cuadro:nth-of-type(1), .cuadro:nth-of-type(2), .cuadro:nth-of-type(3){
+  border-top: 0;
+}
+.cuadro:nth-of-type(1), .cuadro:nth-of-type(4), .cuadro:nth-of-type(7){
+  border-left: 0;
+}
+.cuadro:nth-of-type(3), .cuadro:nth-of-type(6), .cuadro:nth-of-type(9){
+  border-right: 0;
+}
+.cuadro:nth-of-type(7), .cuadro:nth-of-type(8), .cuadro:nth-of-type(9){
+  border-bottom: 0;
+}
