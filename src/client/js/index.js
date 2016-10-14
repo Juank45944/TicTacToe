@@ -36,7 +36,7 @@ class TicTacToe {
     this.addUser();
     this.gameStarted();
     this.listenChat();
-    this.writeChat();
+    this.sendChatEvent();
   }
 
   addUser(){
@@ -51,7 +51,7 @@ class TicTacToe {
     this.clientSocket.on('newGame', (datos) => {
       console.log(datos);
       this.players = datos.users;
-      if (this.players[datos.turn]===this.myUser) {
+      if (this.players[datos.turn-1]===this.myUser) {
         this.marker[0] = 'X';
         this.marker[1] = 'O';
         this.miTurno();
