@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
             currentRoom = currentUsers[0].name + currentUsers[1].name
             let random = Math.floor(Math.random() * currentUsers.length + 1)
             socket.join(currentRoom)
-            socket.emit('newGame', { users: currentUsers})
+            socket.to(currentRoom).emit('newGame', { users: currentUsers})
             currentUsers = []
         }
     })
