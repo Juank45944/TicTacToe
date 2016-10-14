@@ -16,18 +16,29 @@ const io = socketio(Server)
 
 var currentUsers = []
 var currentRoom = ''
+var firstSocket = ''
 
 io.on('connection', (socket) => {
     console.log(`New user connected to the game, id: ${socket.id}`)
-
+    console.log(io.broadcast)
     socket.on('newUser', (user) => {
-        currentUsers.push(user)
-        if (currentUsers.length === 2) {
-            currentRoom = currentUsers[0].name + currentUsers[1].name
-            let random = Math.floor(Math.random() * currentUsers.length + 1)
-            socket.join(currentRoom)
-            socket.to(currentRoom).emit('newGame', { users: currentUsers})
-            currentUsers = []
+        switch (currentUsers.length) {
+            case 0:
+                currentUsers.push(user.user)
+                currentRoom = user.user
+                firstSocket = socket
+                break;
+            case 1:
+                currentUsers.push(user.user)
+                currentRoom = currentRoom + user.user
+                let random = Math.floor(Math.random() * currentUsers.length)
+                socket.join(currentRoom)
+                firstSocket.join(currentRoom)
+                io.to(currentRoom).emit('newGame', { users: currentUsers, turn: random })
+                currentUsers = []
+                break;
+            default:
+                break;
         }
     })
 
