@@ -32,8 +32,11 @@ class TicTacToe {
     this.players = [];
     this.clientSocket = io();
     this.marker = [];
+    this.moves = 0;
     this.addUser();
     this.gameStarted();
+    this.listenChat();
+    this.writeChat();
   }
 
   addUser(){
@@ -51,11 +54,11 @@ class TicTacToe {
       if (this.players[datos.turn]===this.myUser) {
         this.marker[0] = 'X';
         this.marker[1] = 'O';
-        miTurno();
+        this.miTurno();
       }else{
         this.marker[0] = 'O';
         this.marker[1] = 'X';
-        turnoOponente();
+        this.turnoOponente();
       }
     })
   }
@@ -75,6 +78,7 @@ class TicTacToe {
   addGameClick(){
     $('.cuadro').on('click', (event) => {
       let element = $(event.target).attr('data-number');
+      this.moves++;
       $(event.target).text(this.marker[0]);
       this.clientSocket.emit('movement', {target: element, user: this.myUser});
       this.turnoOponente();
@@ -85,6 +89,39 @@ class TicTacToe {
       $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]).css('color','#333');
       this.miTurno();
     })
+  }
+
+  listenChat(){
+    this.clientSocket.on('message', (datos) => {
+      $('.msg-container').append(`
+        <div class="msg-cont-rec">
+          <div class="msg-recibido">
+            <span class="titulo-msg">${datos.user}</span>
+            <span class="msg">${datos.msg}</span>
+          </div>
+        </div>
+        `);
+    })
+  }
+  sendChatEvent(){
+    $('[name="send"]').on('click', this.writeChat);
+    $('[name="input-msg"]').on('keypress', (event) => {
+      if (event.which == 13) {
+        this.writeChat();
+      }
+    })
+  }
+  writeChat(){
+    let mensaje = $('[name="input-msg"]').val();
+    $('.msg-container').append(`
+      <div class="msg-cont-rec">
+      <div class="msg-recibido">
+      <span class="titulo-msg">${this.myUser}</span>
+      <span class="msg">${mensaje}</span>
+      </div>
+      </div>
+      `);
+    this.clientSocket.emit('message', {user: this.myUser, msg: mensaje});
   }
 
 }
