@@ -1,30 +1,6 @@
 import io from 'socket.io-client'
 import $ from 'jquery'
 
-//var clientSocket = io()
-
-// Emitir eventos:
-/*
-clientSocket.emit(nombreEvento, { params })
-
-// Escuchar
-
-clientSocket.on(evento, (datos) => {
-
-})
-// */
-//
-// $('#newUser').click(function(){
-//   var username = $("[name='username']").val();
-//   $('#modal').hide();
-//   clientSocket.emit('newUser', {user: username});
-// })
-//
-//
-// clientSocket.on('newGame', (datos) => {
-//   console.log(datos);
-// })
-
 class TicTacToe {
 
   constructor() {
@@ -54,6 +30,7 @@ class TicTacToe {
 
   gameStarted(){
     this.clientSocket.on('newGame', (datos) => {
+      console.log('newGame');
       this.players = datos.users;
       if (this.players[0]===this.myUser) {
         $('#opUser').text(this.players[1]);
@@ -213,7 +190,7 @@ class TicTacToe {
         $('#info-partida h2').text('Perdiste esta partida').css('color', '#FF3C3C');
         resultado = 'l';
       }
-      $(modal).find('#next-game').on('click', this.restartGame);
+      $(modal).find('#next-game').on('click', ()=>{this.restartGame()});
       $(modal).show();
       this.updateScore(resultado);
     }
@@ -240,7 +217,8 @@ class TicTacToe {
     this.moves = 0;
     this.marker = [];
     this.flagPartida = 0;
-    this.clientSocket.emit('restartGame')
+    console.log('restarting...');
+    this.clientSocket.emit('restartGame', {users: this.players});
   }
 }
 
