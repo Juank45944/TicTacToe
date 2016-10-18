@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
     socket.on('restartGame', (data) => {
         let usuarios = data.users,
             random = Math.floor(Math.random() * usuarios.length + 1)
-        socket.broadcast.to(currentRoom).emit('newGame', { users: usuarios, turn: random })
+        io.to(currentRoom).emit('newGame', { users: usuarios, turn: random })
     })
 
     socket.on('movement', (data) => {
