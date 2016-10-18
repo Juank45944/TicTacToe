@@ -161,11 +161,11 @@ body{
   height: 100%;
 }
 .p1{
-  width: 66.66%;
+  width: 0%;
   background-color: #41ff3b;
 }
 .p2{
-  width: 33.33%;
+  width: 0%;
   background-color: #ff3c3c;
 }
 .score-numbers{
@@ -313,4 +313,39 @@ body{
   margin-top: 0.5rem;
   color: #fff;
   cursor: pointer;
+}
+#modal .new-user-form button:hover{
+  background-color: #8631c8;
+}
+#info-partida{
+  position: absolute;
+  z-index: 2;
+  width: 500px;
+  height: 200px;
+  top: 15rem;
+  left: 20rem;
+  background-color: #F5F5F5;
+  box-shadow: 10px 10px 5px #888888;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+#info-partida h2{
+  width: 100%;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #9B59CF;
+}
+#info-partida button{
+  width: 10.5%;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 5px;
+  background: #9b59cf;
+  color: #fff;
+  cursor: pointer;
+}
+#info-partida button:hover{
+  background-color: #8631c8;
 }
