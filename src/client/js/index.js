@@ -12,6 +12,8 @@ class TicTacToe {
     this.wins = 0;
     this.losses = 0;
     this.flagPartida = 0;
+    this.auxMi = 0;
+    this.auxOp = 0;
     $('#info-partida').hide();
     this.addUser();
     this.gameStarted();
@@ -59,6 +61,7 @@ class TicTacToe {
     }else {
       this.whoWon();
     }
+
   }
 
   turnoOponente(){
