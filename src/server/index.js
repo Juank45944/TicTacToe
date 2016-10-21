@@ -54,6 +54,10 @@ io.on('connection', (socket) => {
     socket.on('message', (message) => {
         socket.broadcast.to(currentRoom).emit('message', message)
     })
+    socket.on('finTurno', () => {
+      socket.emit('finTurno')
+      socket.broadcast.to(currentRoom).emit('miTurno')
+    })
 })
 
 Server.listen(port, () => console.log(`TitTacToe is ready for play on port ${port}`))

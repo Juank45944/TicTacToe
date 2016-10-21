@@ -11,9 +11,7 @@ class TicTacToe {
     this.moves = 0;
     this.wins = 0;
     this.losses = 0;
-    this.flagPartida = 0;
-    this.auxMi = 0;
-    this.auxOp = 0;
+    this.partidas = 0;
     $('#info-partida').hide();
     this.addUser();
     this.gameStarted();
@@ -32,7 +30,8 @@ class TicTacToe {
 
   gameStarted(){
     this.clientSocket.on('newGame', (datos) => {
-      console.log('newGame');
+      this.onRestart();
+
       this.players = datos.users;
       if (this.players[0]===this.myUser) {
         $('#opUser').text(this.players[1]);
@@ -41,56 +40,69 @@ class TicTacToe {
       }
       $('#myUser').text(this.myUser);
 
+      this.listenTurno();
+
       if (this.players[datos.turn-1]===this.myUser) {
         this.marker[0] = 'X';
         this.marker[1] = 'O';
-        this.miTurno();
       }else{
         this.marker[0] = 'O';
         this.marker[1] = 'X';
-        this.turnoOponente();
+        $(".turno-oponente").addClass('active');
+        $('.mi-turno').removeClass('active');
+        this.clientSocket.emit('finTurno', {userPlayed: this.myUser});
       }
+    })
+  }
+
+  onRestart(){
+    if (this.partidas=!0) {
+      $('#info-partida').hide();
+      $('#next-game').off('click');
+      $('.cuadro').text('');
+      this.moves = 0;
+      this.marker = [];
+      $('.cuadro').off('click');
+      this.clientSocket.removeListener('miTurno');
+      this.clientSocket.removeListener('finTurno');
+      this.clientSocket.removeListener('movement');
+      this.clientSocket.removeListener('restartGame');
+    }
+  }
+
+  listenTurno(){
+    this.clientSocket.on('miTurno', () => {
+      if (this.winCheck()=="") {
+        this.miTurno();
+      }else {
+        this.whoWon();
+      }
+    })
+    this.clientSocket.on('finTurno', ()=>{
+      $('.cuadro').off('click');
+      if (this.winCheck()!="") {
+        this.whoWon();
+      }
+    })
+    this.clientSocket.on('movement', (datos) => {
+      $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]).css('color','#333333');
     })
   }
 
   miTurno(){
     $(".mi-turno").addClass('active');
     $('.turno-oponente').removeClass('active');
-    if (this.winCheck()==="") {
-      this.addGameClick();
-    }else {
-      this.whoWon();
-    }
-
-  }
-
-  turnoOponente(){
-    $(".turno-oponente").addClass('active');
-    $('.mi-turno').removeClass('active');
-    $('.cuadro').off('click');
-    if (this.winCheck()==="") {
-      this.listenGameClick();
-    }else {
-      this.whoWon();
-    }
-  }
-
-  addGameClick(){
     $('.cuadro').on('click', (event) => {
       let element = $(event.target).attr('data-number');
       this.moves++;
-      $(event.target).text(this.marker[0]);
+      $(event.target).text(this.marker[0]).css('color','#9B59CF');
+      $(".turno-oponente").addClass('active');
+      $('.mi-turno').removeClass('active');
       this.clientSocket.emit('movement', {target: element, user: this.myUser});
-      this.turnoOponente();
+      this.clientSocket.emit('finTurno');
     })
   }
 
-  listenGameClick(){
-    this.clientSocket.on('movement', (datos) => {
-      $(`.cuadro[data-number='${datos.target}']`).text(this.marker[1]).css('color','#333333');
-      this.miTurno();
-    })
-  }
 
   listenChat(){
     this.clientSocket.on('message', (datos) => {
@@ -138,14 +150,14 @@ class TicTacToe {
   }
 
   winCheck(){
-
-    let cuadros = [];
-    if (this.moves < 3) {
+    let cuadros = [],
+        isEmpty = false;
+    if (this.moves < 2) {
       return '';
     }else {
       $.each(document.getElementsByClassName('cuadro'), function(key, value){
         if (key == 0) {
-          cuadros[key] = '';
+          cuadros[key] = '-1';
           cuadros[key+1]=  $(value).text();
         }else {
           cuadros[key+1]=  $(value).text();
@@ -176,28 +188,40 @@ class TicTacToe {
       if (cuadros[3] ==  cuadros[5] && cuadros[5] == cuadros[7]) {
         return cuadros[3];
       }
+      $.each(cuadros, function(key, value){
+        if (cuadros[key]=='') {
+          isEmpty = true;
+        }
+      })
+      if (!isEmpty) {
+        return 'noWin';
+      }
       return '';
     }
   }
 
   whoWon(){
-
-
-    if (this.flagPartida===0) {
-      let modal = $('#info-partida');
-      let resultado = '';
-      if(this.winCheck()==this.marker[0]){
+    let resultado = '';
+    let winCheck = this.winCheck();
+    if (winCheck=='noWin') {
+      $('#info-partida h2').text('Nadie ganó esta partida');
+    }else {
+      if(winCheck==this.marker[0]){
         $('#info-partida h2').text('¡Ganaste esta partida!').css('color', '#9B59CF');
         resultado = 'w';
       }else {
         $('#info-partida h2').text('Perdiste esta partida').css('color', '#FF3C3C');
         resultado = 'l';
       }
-      $(modal).find('#next-game').on('click', ()=>{this.restartGame()});
-      $(modal).show();
       this.updateScore(resultado);
     }
-    this.flagPartida++;
+    this.showModal();
+  }
+
+  showModal(){
+    let modal = $('#info-partida');
+    $(modal).find('#next-game').on('click', ()=>{this.restartGame()});
+    $(modal).show();
   }
 
   updateScore(resultado){
@@ -215,12 +239,7 @@ class TicTacToe {
   }
 
   restartGame(){
-    $('#info-partida').hide();
-    $('.cuadro').text('');
-    this.moves = 0;
-    this.marker = [];
-    this.flagPartida = 0;
-    console.log('restarting...');
+    this.partidas ++;
     this.clientSocket.emit('restartGame', {users: this.players});
   }
 }
