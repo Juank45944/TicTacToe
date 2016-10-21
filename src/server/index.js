@@ -1,7 +1,7 @@
 /*
 * Dependencias
 */
-
+//1
 import http from 'http'
 import express from 'express'
 import socketio from 'socket.io'
@@ -10,14 +10,17 @@ const port = 8082
 const app = express()
 
 app.use(express.static('public'))
-const Server = http.createServer(app)
 
+//2
+const Server = http.createServer(app)
 const io = socketio(Server)
+
 
 var currentUsers = []
 var currentRoom = ''
 var firstSocket = ''
 
+//3
 io.on('connection', (socket) => {
     console.log(`New user connected to the game, id: ${socket.id}`)
     socket.on('newUser', (user) => {
@@ -60,4 +63,5 @@ io.on('connection', (socket) => {
     })
 })
 
+//2
 Server.listen(port, () => console.log(`TitTacToe is ready for play on port ${port}`))
