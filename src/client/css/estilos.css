@@ -189,6 +189,8 @@ body{
 .number-p2{
   background-color: #ff3c3c;
 }
+
+/* ESTILOS PARA CSS */
 .chat-container{
   height: 60%;
   width: 100%;
@@ -268,6 +270,9 @@ body{
 .input-container button:hover{
   background: #8631c8;
 }
+
+/* Fin estilos chat */
+
 #modal{
   display: block;
   position: absolute;
